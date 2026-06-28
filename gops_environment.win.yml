@@ -1,4 +1,4 @@
-name: gops
+name: gops_env
 
 channels:
   - defaults
