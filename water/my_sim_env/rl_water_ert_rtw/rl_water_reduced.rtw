@@ -1,0 +1,530 @@
+CompiledModel {
+  Name			  "rl_water"
+  OrigName		  "rl_water"
+  PrmModelName		  SLDataModelName(rl_water)
+  IsPreCodeGenPhase	  1
+  ModelReferenceTargetType "NONE"
+  ExternalInputs {
+    ExternalInputDefaults {
+      RecordType	      "ExternalInput"
+    }
+    NumExternalInputs	    1
+    ExternalInput {
+      ExternalInputIdx	      0
+      RecordIdx		      [0]
+    }
+  }
+  ExternalOutputs {
+    ExternalOutputDefaults {
+      RecordType	      "ExternalOutput"
+    }
+    NumExternalOutputs	    3
+    ExternalOutput {
+      ExternalOutputIdx	      0
+      RecordIdx		      [0]
+    }
+    ExternalOutput {
+      ExternalOutputIdx	      1
+      RecordIdx		      [1]
+    }
+    ExternalOutput {
+      ExternalOutputIdx	      2
+      RecordIdx		      [2]
+    }
+  }
+  DataTypes {
+    DataTypeDefaults {
+      RecordType	      "DataType"
+    }
+    ElementsDefaults {
+      RecordType	      "DataTypeElements"
+    }
+    NumDataTypes	    19
+    DataType {
+      Id		      0
+      RecordIdx		      [0]
+    }
+    DataType {
+      Id		      1
+      RecordIdx		      [1]
+    }
+    DataType {
+      Id		      2
+      RecordIdx		      [2]
+    }
+    DataType {
+      Id		      3
+      RecordIdx		      [3]
+    }
+    DataType {
+      Id		      4
+      RecordIdx		      [4]
+    }
+    DataType {
+      Id		      5
+      RecordIdx		      [5]
+    }
+    DataType {
+      Id		      6
+      RecordIdx		      [6]
+    }
+    DataType {
+      Id		      7
+      RecordIdx		      [7]
+    }
+    DataType {
+      Id		      8
+      RecordIdx		      [8]
+    }
+    DataType {
+      Id		      9
+      RecordIdx		      [9]
+    }
+    DataType {
+      Id		      10
+      RecordIdx		      [10]
+    }
+    DataType {
+      Id		      11
+      RecordIdx		      [11]
+    }
+    DataType {
+      Id		      12
+      RecordIdx		      [12]
+    }
+    DataType {
+      Id		      13
+      RecordIdx		      [13]
+    }
+    DataType {
+      Id		      14
+      RecordIdx		      [14]
+    }
+    DataType {
+      Id		      15
+      RecordIdx		      [15]
+    }
+    DataType {
+      Id		      16
+      RecordIdx		      [16]
+    }
+    DataType {
+      Id		      17
+      RecordIdx		      [17]
+    }
+    DataType {
+      Id		      18
+      RecordIdx		      [18]
+    }
+  }
+  Solver		  ode3
+  SolverType		  FixedStep
+  StartTime		  0.0
+  StopTime		  200.0
+  Subsystem {
+    Name		    "<Root>/Subsystem"
+  }
+  Subsystem {
+    Name		    "<S1>/Water-Tank System"
+  }
+  Subsystem {
+    Name		    "<S1>/calculate reward"
+  }
+  Subsystem {
+    Name		    "<S1>/generate observations"
+  }
+  Subsystem {
+    Name		    "<S1>/stop simulation"
+  }
+  Subsystem {
+    Name		    "<S3>/Compare To Constant"
+    SLName		    "<S3>/Compare\nTo Constant"
+  }
+  Subsystem {
+    Name		    "<S5>/Compare To Constant1"
+    SLName		    "<S5>/Compare\nTo Constant1"
+  }
+  Subsystem {
+    Name		    "<S5>/Compare To Zero"
+    SLName		    "<S5>/Compare\nTo Zero"
+  }
+  ExprCommentInfoDefaults {
+    SysIdxList		    []
+    BlkIdxList		    []
+    PortIdxList		    []
+  }
+  ExprCommentSrcIdxDefaults {
+    SysIdx		    -1
+    BlkIdx		    -1
+    PortIdx		    -1
+  }
+  BlockDefaults {
+    UserDefinedRWork	    0
+    UserDefinedIWork	    0
+    UserDefinedPWork	    0
+    NumRWorkDefines	    -1
+    NumIWorkDefines	    -1
+    NumPWorkDefines	    -1
+    RecordType		    "Block"
+    InMask		    no
+    ExecuteBlockFcns	    1
+    UseTLC		    0
+    DeletedInIR		    0
+    AlgebraicLoopId	    0
+    PortBasedSampleTimes    no
+    ContStates		    [0,0,0]
+    ModeVector		    [0,-1]
+    RWork		    [0,-1]
+    IWork		    [0,-1]
+    PWork		    [0,-1]
+    DiscStates		    [0,-1]
+    MassMatrixPr	    [0,-1]
+    NumDWork		    0
+    NumNonsampledZCs	    0
+    ZCEvents		    [0,0]
+    NumBlkZcRecs	    0
+    RollRegions		    []
+    RollRegionTypes	    []
+    NumDataInputPorts	    0
+    NumControlInputPorts    0
+    NumDataOutputPorts	    1
+    Parameters		    [0,0]
+    NumParameterGroups	    0
+    Description		    []
+    PolySpaceStartComment   []
+    PolySpaceEndComment	    []
+    ReducedBlocksConnected  []
+    HaveBlockComment	    0
+    InFixptMode		    0
+    GrSrc		    [-1, -1]
+    NeedOutputsFcnInMdlStart 0
+    AsyncSfcn		    0
+    TriggeredBlockConstantSampleTimePorts []
+    HasSymbolicDims	    0
+    OutputBlockFcnIdx	    -1
+    HasLocalSolver	    no
+    LocalSolverInputCompensationMode 0
+    LocalSolverOutputCompensationMode 0
+  }
+  NumSystems		  1
+  tSS_LONG		  -2147483648
+  tSS_ULONG		  -2147483645
+  tSS_LONG_LONG		  -2147483644
+  tSS_ULONG_LONG	  -2147483643
+  tSS_VOID		  -2147483647
+  tSS_SIZET		  -2147483646
+  tSS_UINTEGER		  -2147483642
+  tSS_CHAR		  -2147483641
+  tSS_UCHAR		  -2147483640
+  tSS_TIME		  -2147483639
+  tSS_DOUBLE		  0
+  tSS_SINGLE		  1
+  tSS_INT8		  2
+  tSS_UINT8		  3
+  tSS_INT16		  4
+  tSS_UINT16		  5
+  tSS_INT32		  6
+  tSS_UINT32		  7
+  tSS_BOOLEAN		  8
+  tSS_FCN_CALL		  9
+  tSS_INTEGER		  10
+  tSS_POINTER		  11
+  tSS_ACTION		  12
+  tSS_TIMER_UINT32_PAIR	  13
+  tSS_INVALID_DATA_TYPE_ID -10
+  BlockHierarchyMap {
+    Subsystem {
+      Name		      "<Root>"
+      Block {
+	Name			"<Root>/Action"
+      }
+      Block {
+	Name			"<Root>/State"
+      }
+      Block {
+	Name			"<Root>/Reward"
+      }
+      Block {
+	Name			"<Root>/Done"
+      }
+      Block {
+	Name			"<Root>/Subsystem"
+      }
+    }
+    Subsystem {
+      Name		      "<Root>/Subsystem"
+      Block {
+	Name			"<S1>/Water-Tank System"
+      }
+      Block {
+	Name			"<S1>/calculate reward"
+      }
+      Block {
+	Name			"<S1>/generate observations"
+      }
+      Block {
+	Name			"<S1>/stop simulation"
+      }
+      Block {
+	Name			"<S1>/Desired nWater Level"
+      }
+      Block {
+	Name			"<S1>/Sum1"
+      }
+    }
+    Subsystem {
+      Name		      "<S1>/Water-Tank System"
+      Block {
+	Name			"<S2>/a//A"
+      }
+      Block {
+	Name			"<S2>/b//A"
+      }
+      Block {
+	Name			"<S2>/H"
+      }
+      Block {
+	Name			"<S2>/Sum"
+      }
+      Block {
+	Name			"<S2>/Sqrt"
+      }
+    }
+    Subsystem {
+      Name		      "<S1>/calculate reward"
+      Block {
+	Name			"<S3>/Compare To Constant"
+      }
+      Block {
+	Name			"<S3>/Abs"
+      }
+      Block {
+	Name			"<S3>/Gain"
+      }
+      Block {
+	Name			"<S3>/Gain1"
+      }
+      Block {
+	Name			"<S3>/Gain2"
+      }
+      Block {
+	Name			"<S3>/NOT"
+      }
+      Block {
+	Name			"<S3>/Sum"
+      }
+    }
+    Subsystem {
+      Name		      "<S1>/generate observations"
+      Block {
+	Name			"<S4>/Integrator"
+      }
+    }
+    Subsystem {
+      Name		      "<S1>/stop simulation"
+      Block {
+	Name			"<S5>/Compare To Constant1"
+      }
+      Block {
+	Name			"<S5>/Compare To Zero"
+      }
+      Block {
+	Name			"<S5>/OR"
+      }
+    }
+    Subsystem {
+      Name		      "<S3>/Compare\nTo Constant"
+      Block {
+	Name			"<S6>/Constant"
+      }
+      Block {
+	Name			"<S6>/Compare"
+      }
+    }
+    Subsystem {
+      Name		      "<S5>/Compare\nTo Constant1"
+      Block {
+	Name			"<S7>/Constant"
+      }
+      Block {
+	Name			"<S7>/Compare"
+      }
+    }
+    Subsystem {
+      Name		      "<S5>/Compare\nTo Zero"
+      Block {
+	Name			"<S8>/Constant"
+      }
+      Block {
+	Name			"<S8>/Compare"
+      }
+    }
+  }
+  DWorkDefaults {
+    RecordType		    "BlockDWork"
+  }
+  ParameterDefaults {
+    RecordType		    "BlockParameter"
+    Tunable		    no
+  }
+  DataInputPortDefaults {
+    RecordType		    "DataInputPort"
+  }
+  DataOutputPortDefaults {
+    RecordType		    "DataOutputPort"
+  }
+  ModelIsLinearlyImplicit no
+  GenUtilsSrcInSharedLocation 0
+  System {
+    SystemIdx		    0
+    Name		    "<Root>"
+    FileNameOwnerIdx	    0
+    SystemNamespaceFlag	    0
+    NumBlocks		    7
+    Block {
+      Type		      Constant
+      Name		      "<S1>/Desired nWater Level"
+      RecordType	      "CompiledBlock"
+      RecordIdx		      [0, 0]
+      BlockIdx		      [0, 0, 0]
+      TID		      1
+      PID		      -1
+      ExecuteBlockFcns	      0
+      NumDataInputPorts	      0
+      NumDataOutputPorts      1
+      DataOutputPort {
+	RecordIdx		[0, 0, 0]
+      }
+      NumDWork		      0
+      Parameters	      [1]
+      Parameter {
+	BlockParamIdx		0
+	Name			"Value"
+	RecordIdx		[0, 0, 0]
+	Value			[15.0]
+	Tunable			yes
+      }
+      Value		      Parameter[0]
+    }
+    Block {
+      Type		      Outport
+      Name		      "<Root>/State"
+      RecordType	      "CompiledBlock"
+      RecordIdx		      [0, 1]
+      BlockIdx		      [0, 0, 1]
+      TID		      0
+      PID		      -1
+      ExecuteBlockFcns	      0
+      NumDataInputPorts	      1
+      DataInputPort {
+	RecordIdx		[0, 1, 0]
+      }
+      NumDataOutputPorts      0
+      NumDWork		      0
+      Parameters	      [0]
+    }
+    Block {
+      Type		      Outport
+      Name		      "<Root>/Reward"
+      RecordType	      "CompiledBlock"
+      RecordIdx		      [0, 2]
+      BlockIdx		      [0, 0, 2]
+      TID		      0
+      PID		      -1
+      ExecuteBlockFcns	      0
+      NumDataInputPorts	      1
+      DataInputPort {
+	RecordIdx		[0, 2, 0]
+      }
+      NumDataOutputPorts      0
+      NumDWork		      0
+      Parameters	      [0]
+    }
+    Block {
+      Type		      Outport
+      Name		      "<Root>/Done"
+      RecordType	      "CompiledBlock"
+      RecordIdx		      [0, 3]
+      BlockIdx		      [0, 0, 3]
+      TID		      0
+      PID		      -1
+      ExecuteBlockFcns	      0
+      NumDataInputPorts	      1
+      DataInputPort {
+	RecordIdx		[0, 3, 0]
+      }
+      NumDataOutputPorts      0
+      NumDWork		      0
+      Parameters	      [0]
+    }
+    Block {
+      Type		      Constant
+      Name		      "<S6>/Constant"
+      RecordType	      "CompiledBlock"
+      RecordIdx		      [0, 4]
+      BlockIdx		      [0, 0, 4]
+      TID		      constant
+      ExecuteBlockFcns	      0
+      NumDataInputPorts	      0
+      NumDataOutputPorts      1
+      DataOutputPort {
+	RecordIdx		[0, 4, 0]
+      }
+      NumDWork		      0
+      Parameters	      [1]
+      Parameter {
+	BlockParamIdx		0
+	Name			"Value"
+	RecordIdx		[0, 4, 0]
+	Value			[0.1]
+      }
+      Value		      Parameter[0]
+    }
+    Block {
+      Type		      Constant
+      Name		      "<S7>/Constant"
+      RecordType	      "CompiledBlock"
+      RecordIdx		      [0, 5]
+      BlockIdx		      [0, 0, 5]
+      TID		      constant
+      ExecuteBlockFcns	      0
+      NumDataInputPorts	      0
+      NumDataOutputPorts      1
+      DataOutputPort {
+	RecordIdx		[0, 5, 0]
+      }
+      NumDWork		      0
+      Parameters	      [1]
+      Parameter {
+	BlockParamIdx		0
+	Name			"Value"
+	RecordIdx		[0, 5, 0]
+	Value			[20.0]
+      }
+      Value		      Parameter[0]
+    }
+    Block {
+      Type		      Constant
+      Name		      "<S8>/Constant"
+      RecordType	      "CompiledBlock"
+      RecordIdx		      [0, 6]
+      BlockIdx		      [0, 0, 6]
+      TID		      constant
+      ExecuteBlockFcns	      0
+      NumDataInputPorts	      0
+      NumDataOutputPorts      1
+      DataOutputPort {
+	RecordIdx		[0, 6, 0]
+      }
+      NumDWork		      0
+      Parameters	      [1]
+      Parameter {
+	BlockParamIdx		0
+	Name			"Value"
+	RecordIdx		[0, 6, 0]
+	Value			[0.0]
+      }
+      Value		      Parameter[0]
+    }
+  }
+}

@@ -1,0 +1,89 @@
+%implements s0_b0_qrojj_Outputs "C"
+
+%function Outputs(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%openfile localVarDecl
+
+int8_T rtb_Gain1;
+uint8_T rtb_Gain;
+boolean_T rtb_OR;
+%closefile localVarDecl
+%<SLibCG_TrackEO(2)>\
+%<SLibCG_TrackEO(1)>\
+%<SLibCG_TrackEO(0)>\
+%<SLibCG_TrackEI(0)>\
+/* {S!d2}Integrator: '<S4>/Integrator' */
+/* Limited  Integrator  */
+/*@>9d8*/if (/*@>69c0*/rl_water_X./*@>6f1d*/Integrator_CSTATE/*@>9c8*/ >= /*@>3871*/10.0) {
+    /*@>69cc*/rl_water_X./*@>6f23*/Integrator_CSTATE/*@>9cc*/ = /*@>3873*/10.0;
+} else /*@>9d6*/if (/*@>69c6*/rl_water_X./*@>6f20*/Integrator_CSTATE/*@>9d0*/ <= /*@>3872*/-10.0) {
+    /*@>69d2*/rl_water_X./*@>6f26*/Integrator_CSTATE/*@>9d4*/ = /*@>3874*/-10.0;
+}
+/* {S!d4}Integrator: '<S2>/H' */
+/* Limited  Integrator  */
+/*@>9fe*/if ((!/*@<5e7c*/(/*@>69d8*/rl_water_X./*@>6f29*/H_CSTATE/*@>9ee*/ >= /*@>3875*/%<LibGetMathConstant(LibRealNonFinite("inf"), FcnGetDataTypeIdFromName("double"))>))/*@>6ddd*/ && (/*@>69de*/rl_water_X./*@>6f2c*/H_CSTATE/*@>9f6*/ <= /*@>3876*/0.0)) {
+    /*@>69ea*/rl_water_X./*@>6f32*/H_CSTATE/*@>9fa*/ = /*@>3878*/0.0;
+}
+/* {S!d6}Sum: '<S1>/Sum1' incorporates:
+ *  Constant: '<S1>/Desired nWater Level'
+ *  Integrator: '<S2>/H'
+ */
+/*@>6950*/rl_water_B./*@>6f11*/Sum1/*@>b8c*/ = /*@>6aae*/rl_water_InstP./*@>6f44*/h_goal/*@>b89*/ - /*@>69e4*/rl_water_X./*@>6f2f*/H_CSTATE;
+/* {S!d8}Outport: '<Root>/State' incorporates:
+ *  Integrator: '<S2>/H'
+ *  Integrator: '<S4>/Integrator'
+ */
+/*@>68f2*/rl_water_Y./*@>6f02*/State/*@>2bff*/[/*@>3862*/0]/*@>2bfe*/ = /*@>69f0*/rl_water_X./*@>6f35*/Integrator_CSTATE;
+/*@>68f8*/rl_water_Y./*@>6f05*/State/*@>2c08*/[/*@>3865*/1]/*@>2c07*/ = /*@>6956*/rl_water_B./*@>6f14*/Sum1;
+/*@>68fe*/rl_water_Y./*@>6f08*/State/*@>2c11*/[/*@>3868*/2]/*@>2c10*/ = /*@>69f6*/rl_water_X./*@>6f38*/H_CSTATE;
+/* {S!d10}RelationalOperator: '<S6>/Compare' incorporates:
+ *  Abs: '<S3>/Abs'
+ *  Constant: '<S6>/Constant'
+ */
+/*@>3828*/rtb_OR/*@>802*/ = (/*@>6477*/std::abs(/*@>695c*/rl_water_B./*@>6f17*/Sum1)/*@>801*/ < /*@>3879*/0.1);
+/* {S!d12}Gain: '<S3>/Gain' */
+/*@>3848*/rtb_Gain/*@>80c*/ = static_cast<uint8_T>(/*@>382a*/rtb_OR/*@>382a*/ ? /*@>387f*/160 : /*@>3960*/0);
+/* {S!d14}Gain: '<S3>/Gain1' incorporates:
+ *  Logic: '<S3>/NOT'
+ */
+/*@>384a*/rtb_Gain1/*@>81b*/ = static_cast<int8_T>(!/*@<1aaf*//*@>3851*/rtb_OR/*@>1aaf*/ ? /*@>3880*/-128 : /*@>395b*/0);
+/* {S!d16}Logic: '<S5>/OR' incorporates:
+ *  Constant: '<S7>/Constant'
+ *  Constant: '<S8>/Constant'
+ *  Integrator: '<S2>/H'
+ *  RelationalOperator: '<S7>/Compare'
+ *  RelationalOperator: '<S8>/Compare'
+ */
+/*@>382c*/rtb_OR/*@>82a*/ = ((/*@>69fc*/rl_water_X./*@>6f3b*/H_CSTATE/*@>1ab3*/ >= /*@>387a*/20.0)/*@>829*/ || (/*@>6a02*/rl_water_X./*@>6f3e*/H_CSTATE/*@>1ab8*/ <= /*@>387b*/0.0));
+/* {S!d18}Outport: '<Root>/Reward' incorporates:
+ *  Gain: '<S3>/Gain'
+ *  Gain: '<S3>/Gain1'
+ *  Gain: '<S3>/Gain2'
+ *  Sum: '<S3>/Sum'
+ */
+/*@>6908*/rl_water_Y./*@>6f0b*/Reward/*@>842*/ = (static_cast<real_T>(/*@>3857*/rtb_Gain)/*@>394c*/ * /*@>394b*/0.0625/*@>1ace*/ + static_cast<real_T>(/*@>3859*/rtb_Gain1)/*@>3953*/ * /*@>3952*/0.0078125)/*@>1acd*/ + static_cast<real_T>(/*@>385d*/rtb_OR/*@>385d*/ ? /*@>387c*/-100 : /*@>3957*/0);
+/* {S!d20}Outport: '<Root>/Done' */
+/*@>690e*/rl_water_Y./*@>6f0e*/Done/*@>844*/ = /*@>3830*/rtb_OR;
+/* {S!d22}Sum: '<S2>/Sum' incorporates:
+ *  Gain: '<S2>/a//A'
+ *  Gain: '<S2>/b//A'
+ *  Inport: '<Root>/Action'
+ *  Integrator: '<S2>/H'
+ *  Sqrt: '<S2>/Sqrt'
+ */
+/*@>6962*/rl_water_B./*@>6f1a*/Sum/*@>b9c*/ = /*@>387d*/0.25/*@>3942*/ * /*@>68bc*/rl_water_U./*@>6eff*/Action/*@>b99*/ - /*@>387e*/0.1/*@>3946*/ * /*@>6479*/std::sqrt(/*@>6a08*/rl_water_X./*@>6f41*/H_CSTATE);
+%<SLibInsertSolverResetCode()>\
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedOutputLocalVars", localVarDecl)>
+%endfunction
+%function OutputsFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Outputs(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 0, fcnProtoType)>
+%endfunction

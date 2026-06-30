@@ -45,6 +45,7 @@ class OffSerialTrainer:
 
         self.replay_batch_size = kwargs["replay_batch_size"]
         self.max_iteration = kwargs["max_iteration"]
+        self.max_episode = kwargs.get("max_episode", None)
         self.sample_interval = kwargs.get("sample_interval", 1)
         self.log_save_interval = kwargs["log_save_interval"]
         self.apprfunc_save_interval = kwargs["apprfunc_save_interval"]
@@ -107,6 +108,11 @@ class OffSerialTrainer:
             print("Iter = ", self.iteration)
             add_scalars(alg_tb_dict, self.writer, step=self.iteration)
             add_scalars(self.sampler_tb_dict.pop(), self.writer, step=self.iteration)
+            self.writer.add_scalar(
+                tb_tags["Episodes of RL iteration"],
+                self.sampler.get_total_episode_number(),
+                self.iteration,
+            )
 
         # save
         if self.iteration % self.apprfunc_save_interval == 0:
@@ -165,12 +171,20 @@ class OffSerialTrainer:
                 )
 
     def train(self):
-        while self.iteration < self.max_iteration:
+        while self.iteration < self.max_iteration and (
+            self.max_episode is None
+            or self.sampler.get_total_episode_number() < self.max_episode
+        ):
             self.step()
             self.iteration += 1
 
         self.save_apprfunc()
         self.writer.flush()
+        print(
+            "Completed training episodes: {}".format(
+                self.sampler.get_total_episode_number()
+            )
+        )
 
     def save_apprfunc(self):
         torch.save(

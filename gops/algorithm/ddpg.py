@@ -54,9 +54,15 @@ class ApproxContainer(ApprBase):
 
         # set optimizers
         self.policy_optimizer = Adam(
-            self.policy.parameters(), lr=kwargs["policy_learning_rate"]
+            self.policy.parameters(),
+            lr=kwargs["policy_learning_rate"],
+            weight_decay=kwargs.get("policy_l2_regularization", 0.0),
         )
-        self.q_optimizer = Adam(self.q.parameters(), lr=kwargs["value_learning_rate"])
+        self.q_optimizer = Adam(
+            self.q.parameters(),
+            lr=kwargs["value_learning_rate"],
+            weight_decay=kwargs.get("value_l2_regularization", 0.0),
+        )
 
     # create action_distributions
     def create_action_distributions(self, logits):
@@ -82,6 +88,7 @@ class DDPG(AlgorithmBase):
         self.gamma = 0.99
         self.tau = 0.005
         self.delay_update = 1
+        self.gradient_clip = kwargs.get("gradient_clip", None)
         self.per_flag = buffer_name == "prioritized_replay_buffer"
 
     @property
@@ -90,6 +97,7 @@ class DDPG(AlgorithmBase):
             "gamma",
             "tau",
             "delay_update",
+            "gradient_clip",
         )
 
     def _compute_gradient(self, data: dict, iteration):
@@ -120,12 +128,21 @@ class DDPG(AlgorithmBase):
             loss_q, q, abs_err = self._compute_loss_q_per(o, a, r, o2, d, idx, weight)
             loss_q.backward()
 
+        if self.gradient_clip is not None:
+            torch.nn.utils.clip_grad_norm_(
+                self.networks.q.parameters(), self.gradient_clip
+            )
+
         for p in self.networks.q.parameters():
             p.requires_grad = False
 
         self.networks.policy_optimizer.zero_grad()
         loss_policy = self._compute_loss_policy(o)
         loss_policy.backward()
+        if self.gradient_clip is not None:
+            torch.nn.utils.clip_grad_norm_(
+                self.networks.policy.parameters(), self.gradient_clip
+            )
 
         for p in self.networks.q.parameters():
             p.requires_grad = True

@@ -14,6 +14,7 @@
 
 __all__ = [
     "DetermPolicy",
+    "DirectDetermPolicy",
     "FiniteHorizonPolicy",
     "FiniteHorizonFullPolicy",
     "MultiplierNet",
@@ -76,6 +77,13 @@ class DetermPolicy(nn.Module, Action_Distribution):
             self.pi(obs)
         ) + (self.act_high_lim + self.act_low_lim) / 2
         return action
+
+
+class DirectDetermPolicy(DetermPolicy):
+    """Deterministic policy with an unsquashed, linear action output."""
+
+    def forward(self, obs):
+        return self.pi(obs)
 
 
 class FiniteHorizonPolicy(nn.Module, Action_Distribution):

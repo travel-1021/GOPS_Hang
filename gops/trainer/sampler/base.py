@@ -21,7 +21,11 @@ from gops.create_pkg.create_env import create_env
 from gops.create_pkg.create_alg import create_approx_contrainer
 from gops.env.vector.vector_env import VectorEnv
 from gops.utils.common_utils import set_seed
-from gops.utils.explore_noise import GaussNoise, EpsilonGreedy
+from gops.utils.explore_noise import (
+    EpsilonGreedy,
+    GaussNoise,
+    OrnsteinUhlenbeckNoise,
+)
 from gops.utils.tensorboard_setup import tb_tags
 
 
@@ -64,11 +68,20 @@ class BaseSampler(metaclass=ABCMeta):
         self.reward_scale = 1.0  #? why hard-coded?
         if self.noise_params is not None:
             if self.action_type == "continu":
-                self.noise_processor = GaussNoise(**self.noise_params)
+                noise_type = kwargs.get("noise_type", "gaussian").lower()
+                if noise_type == "ou":
+                    self.noise_processor = OrnsteinUhlenbeckNoise(
+                        **self.noise_params
+                    )
+                elif noise_type == "gaussian":
+                    self.noise_processor = GaussNoise(**self.noise_params)
+                else:
+                    raise ValueError("Unsupported continuous noise: {}".format(noise_type))
             elif self.action_type == "discret":
                 self.noise_processor = EpsilonGreedy(**self.noise_params)
         
         self.total_sample_number = 0
+        self.total_episode_number = 0
         self.obs, self.info = self.env.reset()
         if self._is_vector:
             # convert a dict of batched data to a list of dict of unbatched data
@@ -97,6 +110,9 @@ class BaseSampler(metaclass=ABCMeta):
 
     def get_total_sample_number(self) -> int:
         return self.total_sample_number
+
+    def get_total_episode_number(self) -> int:
+        return self.total_episode_number
     
     def _step(self) -> List[Experience]:
         # take action using behavior policy
@@ -131,6 +147,9 @@ class BaseSampler(metaclass=ABCMeta):
         if self._is_vector:
             curr_obs = self.obs.copy()
             next_obs, reward, terminated, truncated, next_info = self.env.step(action_clip)
+            self.total_episode_number += int(
+                np.count_nonzero(np.logical_or(terminated, truncated))
+            )
             self.obs = next_obs.copy()
             # For vector env, next_obs, reward, terminated, truncated, and next_info are batched data,
             # and vector env will automatically reset the environment when terminated or truncated is True,
@@ -183,6 +202,7 @@ class BaseSampler(metaclass=ABCMeta):
             self.obs = next_obs
             self.info = next_info
             if done or next_info["TimeLimit.truncated"]:
+                self.total_episode_number += 1
                 self.obs, self.info = self.env.reset()
 
             return [experience]

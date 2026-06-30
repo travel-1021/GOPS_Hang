@@ -130,6 +130,18 @@ def init_args(env, **args):
 
     # Start a new local Ray instance
     # This is necessary since all training scripts use evaluator, which uses ray.
-    ray.init(address="local")
+    # ray.init(address="local", num_gpus=0)
+
+    ray.init(
+        local_mode=True,
+        num_cpus=1,
+        num_gpus=0,
+        include_dashboard=False,
+        ignore_reinit_error=True,
+        log_to_driver=False,
+        _temp_dir="D:/ray_tmp",
+        # Avoid intermittent Windows WSAEACCES failures on a random metrics port.
+        _metrics_export_port=24004,
+    )
 
     return args

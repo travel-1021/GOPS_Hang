@@ -13,6 +13,8 @@
 import numpy as np
 import pandas as pd
 import os
+import subprocess
+import sys
 import time
 import webbrowser
 import platform
@@ -48,22 +50,25 @@ def read_tensorboard(path):
     return output_dict
 
 
-def start_tensorboard(logdir, port=DEFAULT_TB_PORT, autoopen=False):
+def start_tensorboard(logdir, port=DEFAULT_TB_PORT, autoopen=True):
     kill_port(port)
 
-    sys_name = platform.system()
-    if sys_name == "Linux" or sys_name == "Darwin":
-        cmd_line = "tensorboard --logdir {} --port {} &".format(
-            logdir, port
-        )
-    elif sys_name == "Windows":
-        cmd_line = '''start /b cmd.exe /k "tensorboard --logdir {} --port {}"'''.format(
-            logdir, port
-        )
-    else:
-        print("Unsupported os")
-
-    os.system(cmd_line)
+    command = [
+        sys.executable,
+        "-m",
+        "tensorboard.main",
+        "--logdir",
+        os.path.abspath(logdir),
+        "--port",
+        str(port),
+    ]
+    kwargs = {
+        "stdout": subprocess.DEVNULL,
+        "stderr": subprocess.DEVNULL,
+    }
+    if platform.system() == "Windows":
+        kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+    subprocess.Popen(command, **kwargs)
 
     if autoopen:
         time.sleep(5)
@@ -158,6 +163,7 @@ tb_tags = {
     "TAR of collected samples": "Evaluation/3. TAR-Collected samples",
     "TAR of replay samples": "Evaluation/4. TAR-Replay samples",
     "Buffer RAM of RL iteration": "RAM/RAM [MB]-RL iter",
+    "Episodes of RL iteration": "Train/Completed episodes-RL iter",
     "loss_actor": "Loss/Actor loss-RL iter",
     "loss_actor_reward": "Loss/Actor reward loss-RL iter",
     "loss_actor_constraint": "Loss/Actor constraint loss-RL iter",
